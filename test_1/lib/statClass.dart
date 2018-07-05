@@ -59,6 +59,9 @@ class RandomWordsState extends State<RandomWords>{
 
   _navigateDetail(WordPair pair, bool alreadSaved) async {
      final Item result = await Navigator.push(context, MaterialPageRoute(builder: (context) => WordDetailPage(new Item(pair, alreadSaved))));
+     if(result == null) {
+       return;
+     }
      if(result.isLike) {
        _save.add(result.pair);
      } else {

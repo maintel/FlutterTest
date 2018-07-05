@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import './bean/Item.dart';
 
 
@@ -33,20 +34,32 @@ class DetailView extends StatefulWidget{
 class DetailViewState extends State<DetailView> {
 
   final Item detial;
+  int clickNum = 0;
 
   DetailViewState(this.detial);
+
+  Future<bool> _checkCoundBack() {
+          print(clickNum);
+          if(clickNum == 0){
+            clickNum++;
+            return Future.value(false); // 这样的话就屏蔽了返回键
+          } else {
+            return Future.value(true);
+          }
+  }
 
   @override
     Widget build(BuildContext context) {
       // TODO: implement build
-      return WillPopScope(
-        onWillPop: () {
-          Navigator.pop(context, detial);
+      return WillPopScope(  //监听按键
+        onWillPop: () { // 监听android 返回键
+          // Navigator.pop(context, detial);
+          return _checkCoundBack();
         },
         child: Scaffold(
           appBar: AppBar(
             title: Text('detail'),
-            leading: IconButton(  // 通过这里监听返回  但是还不清楚怎么监听android的返回键
+            leading: IconButton(  // 通过这里监听返回  
               tooltip: 'back',
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
