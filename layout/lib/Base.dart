@@ -84,7 +84,89 @@ class MyColumn extends StatelessWidget {
         myChildren.add(split);
       }
     }
-    myChildren.removeLast();
+    if(split != null){
+      myChildren.removeLast();
+    }
     return myChildren;
   }
+}
+
+class MySizeBox extends StatelessWidget {
+
+  final Widget child;
+  final double width;
+  final double height;
+
+  MySizeBox({
+    this.child,
+    this.width = 200.0,
+    this.height = 50.0
+  });
+
+  @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      return new Container(
+        color: Colors.green,
+        child: new SizedBox(
+          width: width,
+          height: height,
+          child: child,
+        ),
+      );
+    }
+}
+
+/// fittedbox 页面的 条目封装
+class FittedBoxItem extends StatelessWidget {
+
+  final BoxFit boxFit;
+  final String text;
+
+  FittedBoxItem({
+    this.boxFit,
+    this.text,
+  });
+
+
+  @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      return new Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new MySizeBox(
+            width: 200.0,
+            height: 50.0,
+            child: new FittedBox(
+              fit: boxFit,
+              child: new Text(text),
+            ),
+          ),
+          new Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          new MySizeBox(
+            width: 100.0,
+            height: 50.0,
+            child: new FittedBox(
+              fit: boxFit,
+              child: new Text(text),
+            ),
+          ),
+          new Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+          new MySizeBox(
+            width: 50.0,
+            height: 25.0,
+            child: new FittedBox(
+              fit: boxFit,
+              child: new Text(text),
+            ),
+          )
+        ],
+      );
+    }
 }

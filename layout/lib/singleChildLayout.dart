@@ -60,17 +60,43 @@ class Layout extends State<SingleChildLayout> {
 }
 
 Widget _fittedBoxWidget() {
+
+/// FittedBox 会根据自身的大小来调整子控件的大小，具体应该怎么用呢？
+/// 需要他的父布局为固定大小比较有效果
+
   return new Center(
-    widthFactor: 1.0,
-    heightFactor: 1.0,
-    child: 
-      new FittedBox(
-        alignment: Alignment.bottomLeft,
-        fit: BoxFit.cover,
-        child: new Text("aaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccdddddddddddddeeeeeeeee"),
-      )
-  );
+    child: MyColumn(
+      split: Divider(),
+      children: <Widget>[
+          new FittedBoxItem(
+            boxFit: BoxFit.contain,
+            text: "BoxFit.contain",
+            ),
+          new FittedBoxItem(
+            boxFit: BoxFit.cover,
+            text: "BoxFit.cover",
+            ),
+          new FittedBoxItem(
+            boxFit: BoxFit.fill,
+            text: "BoxFit.fill",
+            ),
+          new FittedBoxItem(
+            boxFit: BoxFit.fitHeight,
+            text: "BoxFit.fitHeight",
+            ),
+          new FittedBoxItem(
+            boxFit: BoxFit.fitWidth,
+            text: "BoxFit.fitWidth",
+            ),
+          new FittedBoxItem(
+            boxFit: BoxFit.scaleDown,
+            text: "BoxFit.scaleDown",
+          )
+      ],
+    ),
+  ) ;
 }
+
 
 Widget _centerWidget() {
 
