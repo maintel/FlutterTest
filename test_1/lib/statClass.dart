@@ -23,7 +23,7 @@ class RandomWordsState extends State<RandomWords>{
       itemBuilder: (context, i){
         if(i.isOdd) {
           // 画条横线
-          return Divider();
+          return Divider(color:Colors.red,);
         }
         final index = i ~/ 2;
         // 扩容
