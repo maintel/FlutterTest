@@ -4,7 +4,7 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+
         {
             "name": "layout",
             "program": "layout/lib/main.dart",
@@ -14,6 +14,12 @@
         {
             "name": "test1",
             "program": "test_1/lib/main.dart",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dart",
+            "program": "dartTest/src/test.dart",
             "request": "launch",
             "type": "dart"
         }
