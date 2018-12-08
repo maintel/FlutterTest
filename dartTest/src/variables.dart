@@ -17,12 +17,18 @@ main() {
   final tempStr = "adad";
 
 
-  var foo = const [];
-  // 即使用 cosnt 初始化了一个变量，它一样可以被修改
+  var foo = const [1,2,3,4,5,6,7,8];
+  // 即使用 cosnt 初始化了一个变量，它一样可以被重新赋值
+  //   foo[1] = 10;   但是不能被修改
   foo = [1,2,3,4];
-  foo = [4,5,6,7];
+  foo = [4,5,6,7,5];
+  foo[1] = 10; // 被重新赋值以后 就可以被修改了
+  print(foo);
   // double 支持使用科学计数法
   print(1.42e5);
+
+  var constList = const [1,2,3];
+  constList[1] = 10;
 
 }
 
