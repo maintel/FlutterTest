@@ -1,0 +1,5 @@
+name: dartTest
+
+
+dependencies:
+  meta: ^1.1.6
