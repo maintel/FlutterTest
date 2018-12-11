@@ -3,11 +3,57 @@ import 'package:meta/meta.dart';
 import './dartTest.dart';
 
 main(List<String> args) {
-  enableFlags(hidden:false,bold:true);
 
+  print(loudify("Test"));
+
+  var testList = [1,2,3,4];
+
+  // 匿名函数
+  testList.forEach((item){
+      //do Something
+  });
+
+  var madd = makeAdder(1);
+  print(madd(1));
+
+}
+
+/**
+ * 返回一个 函数 (num i) => addBy + i
+ */
+Function makeAdder(num addBy) {
+  // return (num i) => addBy + i;
+  return (num i){
+      return addBy + i;
+  };
+}
+
+
+
+// 函数作为字段
+var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
+
+/**
+ * 参数测试
+ */
+prarmsTest(){
+  enableFlags(hidden:false,bold:true);
   testRequired(name:"maintel");
   testRequired2("maintel", 10);
   testRequired();
+
+  // doStuff();
+  var testList = [1,2,2,3,4];
+  doStuff(list:testList);
+  print("testList:: $testList");// 此时数据被修改
+  var intTest = 100;
+  doTest(intTest);  // 此时数据不会被修改
+  print(intTest);
+}
+
+
+doTest(int a){
+  a = a+10;
 }
 
 /**
@@ -45,5 +91,16 @@ testRequired2(String name, [int age, String interests = "book"]){
   print("name::$name   age::$age");
 }
 
-
+/**
+ * 默认参数支持很多类型，如果是一个 lsit 或者 map 必须指定成 cosnt 的。
+ * 这个时候需要注意的是，const 型的实例是不能被修改的，所以使用时涉及到修改时需要谨慎
+ * doStuff();   这样调用报错运行会报错
+ * doStuff(list:[3,6,9]); 这样不会报错
+ */
+doStuff({
+  List<int> list = const [1,2,3]
+}){
+  list[1] = 10;
+  print("list:: $list");
+}
 
