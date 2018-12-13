@@ -2,6 +2,21 @@ main(List<String> args) {
   num a = 1;
   print('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
 
+  print("${5 ~/ 2}");  // 2
+  print("${5 / 2}");  // 2.5
+  print("${5 % 2}");  // 1
+
+  var b = 10;
+  b ??= 100;
+  print(b);
+  var c;
+  c ??= 100;
+  print(c);
+
+
+  var boolean = "string";
+
+  print(boolean ?? "test");
 
   // .. 是级联操作符，有点像 react 中的级联操作符
   // 它和 java 的链式编程是有区别的，它对当前这个对象起作用。比如下面这样
