@@ -32,6 +32,11 @@ main(List<String> args) {
 }
 
 
+/**
+ * `==` 操作符，其实是一个方法，甚至可以被重写
+ * 当使用它的时候其实是调用了`x==y` 其实就是 `x.==(y)`
+ */
+
 class Test{
   var name;
 

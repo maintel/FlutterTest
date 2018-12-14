@@ -21,20 +21,32 @@ main(List<String> args) {
   print(emp.firstName);
 
 
-  var initializerTest = InitializerTest(10, 100);
+  var initializerTest = InitializerTest(0, 100);
   initializerTest.printMe();
+  var initializerTest2 = InitializerTest.newInstance(100);
+  initializerTest2.printMe();
 
-  var testConst = new TestCosnt("data");
+  var testConst = const TestCosnt("testConst");
   
   print(testConst.data);
   print(testConst.name);
-  print(testConst.age);
-  testConst.testRequired(age:100,name:"maintel");
-  testConst.testRequired2("name name",10,"test");
-  testConst.testRequired3("name name",age:10);
+
+  var testConst2  = const TestCosnt("testConst 2222");
+  var testConst3  = const TestCosnt("testConst");
+
+  print(testConst2.data);
+  print(testConst2.name);
+  print(testConst2.age);
+
+  print(testConst == testConst2);  // false
+  print(testConst == testConst3);  // true
+  print(identical(testConst, testConst3));
+
 }
 
-
+/**
+ * 常量类
+ */
 class TestCosnt {
 
   final String data;
@@ -42,22 +54,14 @@ class TestCosnt {
   final String name;
   final int age;
 
+  /**
+   * 当使用 cosnt 标记一个构造函数是，它类似于java的单例
+   * 而且这个时候这个类中的变量都应该是 fianl 的
+   */
   const TestCosnt(this.data,{
-    this.name,
-    this.age
+    this.name = "laowang",
+    this.age = 10
   });
-
-  testRequired({String name = "laowang", @required int age}){
-    print("name::$name   age::$age");
-  }
-
-  testRequired2(String name, [int age, String interests = "book"]){
-  print("name::$name   age::$age");
-  }
-
-  testRequired3(String name, {int age, String interests}){
-  print("name::$name   age::$age");
-  }
 }
 
 
@@ -72,7 +76,21 @@ class InitializerTest {
   InitializerTest(x,y)
       :x = x,
       y = y,
-      sum = x + y;
+      sum = x + y{
+        print("in consturctor");
+        printMe();
+      }
+  // 两者没区别
+  // InitializerTest(x, y) : 
+  //   assert(x != 0)
+  //   {
+  //     this.x = x;
+  //     this.y = y;
+  //     this.sum = x + y;
+  //   }
+
+  // 重定向构造函数
+  InitializerTest.newInstance(x) : this(x,10);
 
   printMe(){
     print("x::$x  y::$y  sum::$sum");
