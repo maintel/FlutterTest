@@ -68,12 +68,13 @@ enableFlags({bool bold, bool hidden}){
 }
 
 /**
- * 在指定参数名时可以使用使用 required 来标识当前参数是可选的
+ * 在指定参数名时可以使用使用 required 来标识当前参数是必须的（不过需要注
+ * 的是，即使标注了是必须的参数也在不传的情况下编译器也只是会报警告而不是报错）
  * 
  * @required 包含在 meta 库中，在 dart 需要引入`package:meta/meta.dart`
  * 在 fluter 中需要引入 `package:flutter/material.dart`
  * 
- * 同时也可以指定默认值，当指定默认值的时候，这个参数一样可以不传  testRequired();
+ * 同时也可以指定默认值，比如下面的 name 参数
  * 当参数名被指定的时候，任何参数都能指定默认值
  * 
  */
@@ -82,10 +83,22 @@ testRequired({String name = "laowang", @required int age}){
 }
 
 /**
+ * 使用 {} 包裹的参数在调用的时候必须指定参数名，但是可以不用关心参数的顺序:
+ * 比如 testRequired 的调用
+ * testRequired(age:100,name:"maintel");
+ * 下面使用 [] 包裹的参数在调用时也是可以忽略的，但是必须按照顺序调用，不能指定参数名
+ * 比如 testRequired2 调用
+ * testRequired2("name name",10,"test");
+ * 
+ * 可选参数可以在调用的时候只传递其中的某一个值：
+ * testRequired(age:100)
+ */
+
+/**
  * 不使用指定参数名时，
  * 也可以使用 `[]` 来标记一个参数是可选的，但是这个时候就不能放到 `{}` 中了
  * 
- * 如果不指定参数名的时候，只有在 `[]` 即可选参数的时候给指定默认值，比如下面的 interests 参数
+ * 如果不指定参数名的时候，只有在 `[]` 或者 `{}` 即可选参数的时候给指定默认值，比如下面的 interests 参数
  */
 testRequired2(String name, [int age, String interests = "book"]){
   print("name::$name   age::$age");
