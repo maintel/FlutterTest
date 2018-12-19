@@ -55,6 +55,65 @@ main(List<String> args) {
   print(SingleClass() == SingleClass());
   print(identical(SingleClass(),SingleClass()));
 
+  InterfaceTest interfaceTest3 = new InterfaceTest3();
+  InterfaceTest interfaceTest2 = new InterfaceTest2();
+
+  print(greetBob(InterfaceTest("maintel")));
+  print(greetBob(interfaceTest2));
+  print(greetBob(interfaceTest3));
+}
+
+
+
+String greetBob(InterfaceTest person) => person.say('Bob');
+class InterfaceTest {
+  final String _name;
+  final age = "10";
+  // 构造函数，并不属于 接口的范畴
+  const InterfaceTest(this._name);
+
+  // 在实现接口的时候，所有的函数都要被实现
+  String say(String what) => '$_name :: Hello, $what';
+  
+  InterfaceTest.newInstance(this._name);
+
+}
+/**
+ * https://news.dartlang.org/2012/06/proposal-to-eliminate-interface.html
+ * 关于去除 interface 关键字的博客
+ * 
+ * 大概就是说在 dart 中所有的类都是隐式的接口，而且接口完全可以用纯粹的抽象类来代替，
+ * 但是这个博客已经比较老了，在后续中应该是优化了博客中所说的一些问题，但是上面那一句话是正确的
+ */
+class InterfaceTest2 implements InterfaceTest {
+  // num _name = 10;
+  String _name = "lawang"; // 变量可以被重写，但必须是它的子类型
+  // 如果是实现接口 需要重写 get 方法，
+  // 如果主类构造函数(而且是主主构造函数)中没有赋值，则需要重写 set 方法
+
+  set age(age) => this.age = age;
+  get age => "";
+  String say(String what) => '$_name :: hello, $what';
+}
+
+class InterfaceTest3 implements InterfaceTest {
+
+  get _name => '';
+  set age(age) => this.age = age;
+  get age => "";
+  String say(String what) => '$_name ===> hello, $what';
+}
+
+class InterfaceTest4 implements AbstractContainer {
+
+  updateChildren() {
+
+  }
+
+  log() {
+
+  }
+
 }
 
 // 抽象类不能被实例化
