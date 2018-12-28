@@ -67,7 +67,7 @@ main(List<String> args) {
 
 String greetBob(InterfaceTest person) => person.say('Bob');
 class InterfaceTest {
-  final String _name;
+  final Object _name;
   final age = "10";
   // 构造函数，并不属于 接口的范畴
   const InterfaceTest(this._name);
@@ -89,7 +89,7 @@ class InterfaceTest2 implements InterfaceTest {
   // num _name = 10;
   String _name = "lawang"; // 变量可以被重写，但必须是它的子类型
   // 如果是实现接口 需要重写 get 方法，
-  // 如果主类构造函数(而且是主主构造函数)中没有赋值，则需要重写 set 方法
+  // 如果主类构造函数(而且是主构造函数)中没有赋值，则需要重写 set 方法
 
   set age(age) => this.age = age;
   get age => "";
@@ -98,7 +98,7 @@ class InterfaceTest2 implements InterfaceTest {
 
 class InterfaceTest3 implements InterfaceTest {
 
-  get _name => '';
+  get _name => _name;
   set age(age) => this.age = age;
   get age => "";
   String say(String what) => '$_name ===> hello, $what';
