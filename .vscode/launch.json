@@ -20,7 +20,7 @@
             "type": "dart"
         },
         {
-            "name": "test1",
+            "name": "test1-debug",
             "program": "test_1/lib/main.dart",
             "request": "launch",
             "type": "dart"

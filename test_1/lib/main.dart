@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import './statClass.dart';
+import './main/mainPage.dart';
 
 // 程序入口
 void main() => runApp(new MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.grey
       ),
-      home: RandomWords()
+      home: MainClass()
     );
   }
 }
