@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import '../view/mainTab.dart';
 
 /// 主页
 class MainClass extends StatefulWidget{
@@ -13,11 +16,14 @@ class MainState extends State{
     //Scaffold （脚手架）
     // 类似于下面这个内容，它包含一个appBar  ，然后 body 中是内容，放了一个 center 的布局，布局中包含一个 Text，
     return Scaffold(
-        appBar: AppBar(
-          title: Text("test"),
-        ),
-        body: Center(
-          child: Text("center"),
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(    //expanded 布局会充满父布局，从而导致外层也充满父布局
+              child: Image.asset('res/ic_user_center.png'),
+            ),
+            MainTabLayout(),
+          ]
         ),
     );
   }
