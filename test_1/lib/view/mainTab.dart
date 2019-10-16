@@ -3,8 +3,8 @@ import "package:flutter/material.dart";
 const TextStyle optionStyle = TextStyle(fontSize: 8, fontWeight: FontWeight.bold);
 
 const List<String> names = ["首页","会员","发布","通知","我的"];
-const List<String> images = ["res/ic_user_center_unselect.png","res/main_activity_bottom_study_normal.png"
-                              ,"res/ic_user_center_unselect.png","res/ic_user_center_unselect.png"
+const List<String> images = ["res/ic_user_center_unselect.png","res/ic_user_center.png"
+                              ,"res/ic_user_center_unselect.png","res/ic_user_center.png"
                               ,"res/ic_user_center_unselect.png"];
 const List<String> imageSelects = ["res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
                               ,"res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
@@ -61,16 +61,20 @@ class MainTabLayout extends StatelessWidget {
 
 class MainTab extends StatelessWidget{
 
-  int _index = 0;
+  int _index;
   final Function _onClick;
   bool select = false;
+  final String image = "";
+  final String imageSelect = "";
+  final String name = "";
 
-  MainTab(_index,this._onClick){
+  MainTab(this._index,this._onClick){
     print("_index::$_index");
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_index);
     // TODO: implement build
     return Expanded(
       flex: 1,
@@ -85,7 +89,7 @@ class MainTab extends StatelessWidget{
         children: <Widget>[
           Image.asset(_getImage(),width: 25,height: 25,),
           Text(
-            names[_index],
+            name,
             style: optionStyle,)
         ],
       ))
@@ -93,7 +97,8 @@ class MainTab extends StatelessWidget{
       );
   }
   
-  // 这样写是不行的，因为初始化的时候 _index 一直为0，而 flutter 更新界面是通过 setState 来改变的，所以前面给设置完值以后并不会更新页面
+  // 收回上个备注的，一直为 null 是因为构造函数中MainTab(_index)  缺少了 this
+  // 但是 onclick 点击还是不能改变ui
   String _getImage(){
 
     print(_index);
