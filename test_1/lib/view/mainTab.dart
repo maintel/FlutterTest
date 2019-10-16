@@ -3,9 +3,9 @@ import "package:flutter/material.dart";
 const TextStyle optionStyle = TextStyle(fontSize: 8, fontWeight: FontWeight.bold);
 
 const List<String> names = ["首页","会员","发布","通知","我的"];
-const List<String> images = ["res/drawable/main_activity_bottom_study_normal.png","res/drawable/main_activity_bottom_study_normal.png"
-                              ,"res/drawable/main_activity_bottom_study_normal.png","res/drawable/main_activity_bottom_study_normal.png"
-                              ,"res/drawable/main_activity_bottom_study_normal.png"];
+const List<String> images = ["res/ic_user_center_unselect.png","res/main_activity_bottom_study_normal.png"
+                              ,"res/ic_user_center_unselect.png","res/ic_user_center_unselect.png"
+                              ,"res/ic_user_center_unselect.png"];
 const List<String> imageSelects = ["res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
                               ,"res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
                               ,"res/drawable/ic_user_center.png"];
@@ -27,6 +27,7 @@ class MainTabLayout extends StatelessWidget {
   List<MainTab> _getMainTab(){
     int i = 0;
     while(i < 5){
+      print("i::$i");
       _mainTabList.add(MainTab(i, _onPressed));
       i++;
     }
@@ -64,7 +65,9 @@ class MainTab extends StatelessWidget{
   final Function _onClick;
   bool select = false;
 
-  MainTab(_index,this._onClick);
+  MainTab(_index,this._onClick){
+    print("_index::$_index");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +93,10 @@ class MainTab extends StatelessWidget{
       );
   }
   
+  // 这样写是不行的，因为初始化的时候 _index 一直为0，而 flutter 更新界面是通过 setState 来改变的，所以前面给设置完值以后并不会更新页面
   String _getImage(){
-    print(images[_index]);
+
+    print(_index);
     // print(imageSelects[_index]);
     if(select){
       return imageSelects[_index];
