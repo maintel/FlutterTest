@@ -13,6 +13,9 @@ const List<String> imageSelects = ["res/drawable/ic_user_center.png","res/drawab
 
 class MainTabLayout extends StatefulWidget {
 
+  final ValueChanged<int> onSelectChange;
+
+  MainTabLayout({Key key,@required this.onSelectChange}):super(key:key);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -46,16 +49,14 @@ class MainTabLayoutState extends State<MainTabLayout>{
     List<MainTab> _mainTabList = List();
     // 因为 setState 调用以后会更新组件，从而导致添加的 tab 越来越多，这里增加一个判断
     while(i < 5 && _mainTabList.length != 5){
-      print("i::$i");
       _mainTabList.add(MainTab(i,_onPressed, selectIndex: _currentSelect ));
-      print(_mainTabList.length);
       i++;
     }
     return _mainTabList;
   }
 
   void _onPressed(int index){
-
+      widget.onSelectChange(index);
       if(index == _currentSelect){
         
       }else{
@@ -94,13 +95,10 @@ class MainTab extends StatelessWidget{
   final String imageSelect = "";
   final String name = "";
 
-  MainTab(this._index,this._onClick,{this.selectIndex}){
-    print("_index::$_index");
-  }
+  MainTab(this._index,this._onClick,{this.selectIndex});
 
   @override
   Widget build(BuildContext context) {
-    print(_index);
     // TODO: implement build
     return Expanded(
       flex: 1,
@@ -125,9 +123,6 @@ class MainTab extends StatelessWidget{
   // 收回上个备注的，一直为 null 是因为构造函数中MainTab(_index)  缺少了 this
   // 但是 onclick 点击还是不能改变ui
   String _getImage(){
-
-    print(selectIndex == _index);
-    // print(imageSelects[_index]);
     if(selectIndex == _index){
       return imageSelects[_index];
     }else{
