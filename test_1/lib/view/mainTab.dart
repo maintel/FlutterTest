@@ -2,18 +2,16 @@ import "package:flutter/material.dart";
 
 const TextStyle optionStyle = TextStyle(fontSize: 8, fontWeight: FontWeight.bold);
 
-const List<String> names = ["首页","会员","发布","通知","我的"];
+const List<String> names = ["首页","会员","发布","通知","我的","test"];
 const List<String> images = ["res/ic_user_center_unselect.png","res/ic_user_center_unselect.png"
                               ,"res/ic_user_center_unselect.png","res/ic_user_center_unselect.png"
-                              ,"res/ic_user_center_unselect.png"];
+                              ,"res/ic_user_center_unselect.png","res/ic_user_center_unselect.png"];
 const List<String> imageSelects = ["res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
                               ,"res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"
-                              ,"res/drawable/ic_user_center.png"];
+                              ,"res/drawable/ic_user_center.png","res/drawable/ic_user_center.png"];
 // 自己定义了一个导航栏，其实系统提供了导航栏 BottomNavigationBar
 
 class MainTabLayout extends StatefulWidget {
-
-  
 
   @override
   State<StatefulWidget> createState() {
@@ -22,17 +20,17 @@ class MainTabLayout extends StatefulWidget {
   }
 }
 
-
 class MainTabLayoutState extends State<MainTabLayout>{
   int _currentSelect = 0;
-  final List<MainTab> _mainTabList = List();
+  // 关于问题 1 的说明，如果 _mainTabList 作为一个全局变量，其存储的 widget 不能被 setState 更新，就如同下面的想声明一个 final 类型的 widget ，然后就会发现它无法被重置状态。
+  // final List<MainTab> _mainTabList = List();
+  // final MainTab _testTab = new MainTab(5,(){}, selectIndex: _currentSelect);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Row(
       children: _getMainTab(),
-      // 通过下面这种方式可以正常更新组件，但是通过上面方法的方式来更新组件就有问题不会改变选中状态，为什么？
+      // 1、通过下面这种方式可以正常更新组件，但是通过上面方法的方式来更新组件就有问题不会改变选中状态，为什么？
       // children: [
       //   MainTab(0,_onPressed, selectIndex: _currentSelect ),
       //   MainTab(1,_onPressed, selectIndex: _currentSelect ),
@@ -45,6 +43,7 @@ class MainTabLayoutState extends State<MainTabLayout>{
 
   List<MainTab> _getMainTab(){
     int i = 0;
+    List<MainTab> _mainTabList = List();
     // 因为 setState 调用以后会更新组件，从而导致添加的 tab 越来越多，这里增加一个判断
     while(i < 5 && _mainTabList.length != 5){
       print("i::$i");
