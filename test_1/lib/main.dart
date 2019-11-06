@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import './statClass.dart';
-import './main/mainPage.dart';
+import './main/MainClass.dart';
 
 // 程序入口
 void main() => runApp(new MyApp());
