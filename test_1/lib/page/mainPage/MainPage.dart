@@ -35,22 +35,48 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        leading: Text("按钮"),
-        title: TextField(),
-        actions: <Widget>[
-          Text("按钮1"),
-          Text("按钮2")
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: <Widget>[
-            Text("1111"),
-            Text("2222"),
-            Text("3333")
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100),
+        child: AppBar(
+          backgroundColor: Color(0xffffffff),
+          brightness:Brightness.light ,
+          leading: Text("按钮"),
+          title: TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              border: OutlineInputBorder(),
+              labelText: "澳门回归20周年"
+            ),
+            maxLines: 1,
+          ),  //输入框
+          actions: <Widget>[
+            Text("按钮1"),
+            Text("按钮2")
           ],
-        ),
-      ),
+          bottom:TabBar(
+                controller: _tabController,
+                indicatorColor: Color(0xff000000),
+                indicatorPadding: EdgeInsets.all(20),
+                indicatorSize: TabBarIndicatorSize.label,
+
+                tabs: <Widget>[
+                  InkWell(  
+                    onTap: (){
+                      print("click");
+                    },
+                    child: Text("2222"),
+                  ),
+
+                  Text("3333"),
+                  Image.asset("res/ic_user_center.png")
+                ],
+                onTap: (value) {
+                    print(value);
+                },
+              ),
+            ),
+          ),
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[

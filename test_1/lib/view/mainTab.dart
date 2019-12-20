@@ -102,7 +102,7 @@ class MainTab extends StatelessWidget{
     // TODO: implement build
     return Expanded(
       flex: 1,
-      child: InkWell(    // 一个 material 风格的响应控件
+      child: InkWell(    // 一个 material 风格的响应控件  // 支持点击事件
         onTap:(){
           _onClick(_index);
         },
