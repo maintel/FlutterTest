@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/rendering.dart';
 import './statClass.dart';
 import './main/MainClass.dart';
 
 // 程序入口
-void main() => runApp(new MyApp());
+void main(){
+  debugPaintSizeEnabled=true;
+  runApp(new MyApp());
+}
+
 
 class MyApp extends StatelessWidget {
 

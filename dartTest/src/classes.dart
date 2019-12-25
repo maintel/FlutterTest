@@ -32,7 +32,7 @@ main(List<String> args) {
   print(testConst.name);
 
   var testConst2  = const TestCosnt("testConst 2222");
-  var testConst3  = const TestCosnt("testConst");
+  var testConst3  = const TestCosnt("testConst",name: "adadadadad");
 
   print(testConst2.data);
   print(testConst2.name);

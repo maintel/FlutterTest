@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test_1/page/mainPage/AttentionPage.dart';
 import 'package:test_1/page/secondPage/SecondPage.dart';
 
 
@@ -56,20 +57,11 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
           ],
           bottom:TabBar(
                 controller: _tabController,
-                indicatorColor: Color(0xff000000),
-                indicatorPadding: EdgeInsets.all(20),
-                indicatorSize: TabBarIndicatorSize.label,
-
+                indicatorColor: Color(0xffaa00bb),
                 tabs: <Widget>[
-                  InkWell(  
-                    onTap: (){
-                      print("click");
-                    },
-                    child: Text("2222"),
-                  ),
-
-                  Text("3333"),
-                  Image.asset("res/ic_user_center.png")
+                  Text("关注"),
+                  Text("推荐"),
+                  Text("热榜")
                 ],
                 onTap: (value) {
                     print(value);
@@ -80,12 +72,11 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          SecondPage(),
+          AttentionPage(),
           SecondPage(),
           SecondPage()
         ],
       ),
     );
   }
-
 }
