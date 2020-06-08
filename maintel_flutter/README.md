@@ -1,4 +1,4 @@
-# jzt_flutter
+# maintel_flutter
 
 A new flutter module project.
 
