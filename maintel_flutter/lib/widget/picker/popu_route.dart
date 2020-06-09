@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 /// @author jieyu.chen
 /// @date 2020年6月8日
 class CommonButtonPopuRoute<T> extends PopupRoute<T> {
-
   Widget child;
-
 
   CommonButtonPopuRoute({this.child});
 
@@ -14,16 +12,17 @@ class CommonButtonPopuRoute<T> extends PopupRoute<T> {
   @override
   Color get barrierColor => Color.fromRGBO(0, 0, 0, 0.5);
 
+  /// 点击外部关闭
   @override
-  // TODO: implement barrierDismissible
-  bool get barrierDismissible => false;
+  bool get barrierDismissible => true;
 
   @override
-  // TODO: implement barrierLabel
   String get barrierLabel => null;
 
+  ///
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     // TODO: implement buildPage
     Widget bottomSheet = new MediaQuery.removePadding(
         removeTop: true,
@@ -35,18 +34,19 @@ class CommonButtonPopuRoute<T> extends PopupRoute<T> {
     return bottomSheet;
   }
 
+  /// 设置动画
   @override
   AnimationController createAnimationController() {
-    // TODO: implement createAnimationController
-    return BottomSheet.createAnimationController(navigator.overlay);
+    return AnimationController(
+        duration: transitionDuration,
+        // debugLabel: 'BottomSheet',
+        vsync: navigator.overlay);
   }
 
+  /// 动画持续时间
   @override
-  // TODO: implement transitionDuration
-  Duration get transitionDuration => Duration(milliseconds: 2000);
-
+  Duration get transitionDuration => Duration(milliseconds: 200);
 }
-
 
 class InheritRouteWidget extends InheritedWidget {
   final CommonButtonPopuRoute router;
