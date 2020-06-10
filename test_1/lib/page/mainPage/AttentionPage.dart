@@ -45,16 +45,6 @@ class _AttentionPageState extends State<AttentionPage> {
             )
           )
         ],
-      // children: <Widget>[
-      //      Expanded(
-      //         child: ListView(
-      //               scrollDirection: Axis.vertical,
-      //               shrinkWrap: true,
-                    // children: _getAttenTion(),
-      //             ),),
-      //             Text("dadadadad"),    
-      //             Text("dadadadad") 
-      // ]
     );
   }
 

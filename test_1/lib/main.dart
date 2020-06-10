@@ -6,7 +6,7 @@ import './main/MainClass.dart';
 
 // 程序入口
 void main(){
-  debugPaintSizeEnabled=true;
+  debugPaintSizeEnabled=false;
   runApp(new MyApp());
 }
 

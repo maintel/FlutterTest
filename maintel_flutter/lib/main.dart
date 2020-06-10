@@ -6,7 +6,7 @@ import 'package:maintel_flutter/FirstPage.dart';
 import 'package:maintel_flutter/getNativeData.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-
+import 'package:flutter/rendering.dart'; // 1.第一步
 // void main(){
 //   //这一步确保创建 MethodChannel 之前设置好 flutter 绑定
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,10 @@ Widget _widgetForRoute(String route) {
   }
 }
 
-void main() => runApp(FirstPage());
+void main() {
+  // debugPaintSizeEnabled = true; ///开启边界布局
+  runApp(FirstPage());
+}
 // void main() => runApp(MyApp());
 
 class CounterModel extends ChangeNotifier {

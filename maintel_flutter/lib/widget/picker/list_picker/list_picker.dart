@@ -1,8 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:maintel_flutter/widget/picker/list_picker/list_picker_wheel.dart';
+import 'package:maintel_flutter/widget/picker/list_picker/list_result.dart';
 
 import '../popu_route.dart';
 
-class ListPicker extends StatefulWidget {
+const Color _defaultPostiveTextColor = Color(0xffFF7459);
+const Color _defaultNegativeTextColor = Color(0xff9C9C9C);
+const Color _defaultBgTextColor = Color(0xffffffff);
+
+/// 列表选择器
+/// [T] 类型 如果不是 string ，一定要重写 toString 方法
+class ListPicker<T> extends StatefulWidget {
+  final List<T> contentList;
+  final Color backgroundColor;
+  final Color positiveTextColor;
+  final Color negativeTextColor;
+  final String positiveText;
+  final String negativeText;
+  final double height;
+  final String leftText;
+  final String rightText;
+
+  ListPicker(this.contentList,
+      {this.positiveText = "完成",
+      this.negativeText = "取消",
+      this.height = 300,
+      this.leftText,
+      this.rightText,
+      this.backgroundColor = _defaultBgTextColor,
+      this.positiveTextColor = _defaultPostiveTextColor,
+      this.negativeTextColor = _defaultNegativeTextColor});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -11,6 +39,8 @@ class ListPicker extends StatefulWidget {
 }
 
 class _ListPickerWidget extends State<ListPicker> {
+  int _currentSelectItem = 0;
+
   @override
   Widget build(BuildContext context) {
     final route = InheritRouteWidget.of(context).router;
@@ -25,8 +55,8 @@ class _ListPickerWidget extends State<ListPicker> {
                 child: Container(
                   padding:
                       EdgeInsets.only(top: 16, left: 15, right: 15, bottom: 20),
-                  height: 400,
-                  color: Colors.white,
+                  height: widget.height,
+                  color: widget.backgroundColor,
                   child: Column(
                     children: <Widget>[
                       _getTitleWidget(),
@@ -35,8 +65,9 @@ class _ListPickerWidget extends State<ListPicker> {
                         height: 1,
                         color: Color(0xffEEEEEE),
                       ),
-                      Column(
-                        children: _getWheelWidget(),
+                      Expanded(
+                        child: _getWheelWidget(),
+                        flex: 1,
                       )
                     ],
                   ),
@@ -51,15 +82,17 @@ class _ListPickerWidget extends State<ListPicker> {
     return Row(
       children: <Widget>[
         GestureDetector(
-          onTap: () => {print("取消被点击")},
+          onTap: () {
+            Navigator.pop(context, PickerResult(-1, null));
+          },
           child: Padding(
             padding: EdgeInsets.all(2),
             child: Text(
-              "取消",
+              widget.negativeText,
               style: TextStyle(
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.w300,
                   fontSize: 16,
-                  color: Color(0xff9C9C9C),
+                  color: widget.negativeTextColor,
                   decoration: TextDecoration.none),
             ),
           ),
@@ -69,15 +102,20 @@ class _ListPickerWidget extends State<ListPicker> {
           flex: 1,
         ),
         GestureDetector(
-          onTap: () => {"完成被点击"},
+          onTap: () {
+            Navigator.pop(
+                context,
+                PickerResult(_currentSelectItem,
+                    widget.contentList[_currentSelectItem]));
+          },
           child: Padding(
             padding: EdgeInsets.all(2),
             child: Text(
-              "完成",
+              widget.positiveText,
               style: TextStyle(
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.w300,
                   fontSize: 16,
-                  color: Color(0xffFF7459),
+                  color: widget.positiveTextColor,
                   decoration: TextDecoration.none),
             ),
           ),
@@ -87,15 +125,55 @@ class _ListPickerWidget extends State<ListPicker> {
   }
 
   /// 内容列表
-  List<Widget> _getWheelWidget() {
-    var list = {"aaa", "bbb", "ccc"};
-    var listWidget = List<Widget>();
+  Widget _getWheelWidget() {
+    return Container(
+      decoration: BoxDecoration(),
+      child: MyCupertinoPicker(
+        children: _getWheelItemWidget(),
+        onSelectedItemChanged: (item) {
+          print(item);
+          _currentSelectItem = item;
+        },
+        leftDecorationWidget: _leftTextWidget(),
+        rightDecorationWidget: _rightTextWidget(),
+      ),
+    );
+  }
 
-    for (var item in list) {
-      listWidget.add(WheelItemWidget(item));
+  List<Widget> _getWheelItemWidget() {
+    var list = List<Widget>();
+    for (var item in widget.contentList) {
+      list.add(Align(
+        alignment: Alignment.center,
+        child: Text(item.toString(), style: TextStyle(fontSize: 20)),
+      ));
     }
+    return list;
+  }
 
-    return listWidget;
+  Widget _leftTextWidget() {
+    if (widget.leftText != null) {
+      return Align(
+        child: Text(
+          widget.leftText,
+          style: TextStyle(fontSize: 20),
+        ),
+        alignment: Alignment.centerLeft,
+      );
+    } else {
+      return Text("");
+    }
+  }
+
+  Widget _rightTextWidget() {
+    if (widget.rightText != null) {
+      return Align(
+        child: Text(widget.rightText, style: TextStyle(fontSize: 20)),
+        alignment: Alignment.centerRight,
+      );
+    } else {
+      return Text("");
+    }
   }
 }
 

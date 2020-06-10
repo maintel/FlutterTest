@@ -10,13 +10,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 /// Color of the 'magnifier' lens border.
-const Color _kHighlighterBorder = Color(0xFF7F7F7F);
-const Color _kDefaultBackground = Color(0xFFD2D4DB);
+const Color _kHighlighterBgColor = Color(0xFFF6F6F6);
+const Color _kDefaultBackground = Color(0xffffffff);
 // Eyeballed values comparing with a native picker to produce the right
 // curvatures and densities.
-const double _kDefaultDiameterRatio = 1.07;
+const double _kDefaultDiameterRatio = 2.5;
 const double _kDefaultPerspective = 0.003;
-const double _kSqueeze = 1.45;
+const double _kSqueeze = 0.9;
 
 /// Opacity fraction value that hides the wheel above and below the 'magnifier'
 /// lens with the same color as the background.
@@ -67,12 +67,15 @@ class MyCupertinoPicker extends StatefulWidget {
     Key key,
     this.diameterRatio = _kDefaultDiameterRatio,
     this.backgroundColor = _kDefaultBackground,
+    this.hightLighterBgColor = _kHighlighterBgColor,
     this.offAxisFraction = 0.0,
     this.useMagnifier = false,
-    this.magnification = 1.0,
+    this.magnification = 1.2,
     this.scrollController,
     this.squeeze = _kSqueeze,
-    @required this.itemExtent,
+    this.itemExtent = 30,
+    this.rightDecorationWidget,
+    this.leftDecorationWidget,
     @required this.onSelectedItemChanged,
     @required List<Widget> children,
     bool looping = false,
@@ -111,12 +114,15 @@ class MyCupertinoPicker extends StatefulWidget {
     Key key,
     this.diameterRatio = _kDefaultDiameterRatio,
     this.backgroundColor = _kDefaultBackground,
+    this.hightLighterBgColor = _kHighlighterBgColor,
     this.offAxisFraction = 0.0,
     this.useMagnifier = false,
-    this.magnification = 1.0,
+    this.magnification = 1.2,
     this.scrollController,
     this.squeeze = _kSqueeze,
-    @required this.itemExtent,
+    this.itemExtent = 30,
+    this.rightDecorationWidget,
+    this.leftDecorationWidget,
     @required this.onSelectedItemChanged,
     @required IndexedWidgetBuilder itemBuilder,
     int childCount,
@@ -140,6 +146,7 @@ class MyCupertinoPicker extends StatefulWidget {
   /// For more details, see [ListWheelScrollView.diameterRatio].
   ///
   /// Must not be null and defaults to `1.1` to visually mimic iOS.
+  /// 高度和模拟圆柱体直径之间的比率，越小滚动起来时圆柱体越明显 默认是2.5
   final double diameterRatio;
 
   /// Background color behind the children.
@@ -153,13 +160,17 @@ class MyCupertinoPicker extends StatefulWidget {
   /// wheel list edge fade gradient from rendering of the widget.
   final Color backgroundColor;
 
+  final Color hightLighterBgColor;
+
   /// {@macro flutter.rendering.wheelList.offAxisFraction}
+  /// X坐标轴方向的弯曲程度，越大弯曲的越厉害
   final double offAxisFraction;
 
   /// {@macro flutter.rendering.wheelList.useMagnifier}
+  ///  是否启用放大镜，默认为不启用
   final bool useMagnifier;
 
-  /// {@macro flutter.rendering.wheelList.magnification}
+  /// 选中条目的方法倍率，默认为1.2
   final double magnification;
 
   /// A [FixedExtentScrollController] to read and control the current item, and
@@ -168,15 +179,10 @@ class MyCupertinoPicker extends StatefulWidget {
   /// If null, an implicit one will be created internally.
   final FixedExtentScrollController scrollController;
 
-  /// The uniform height of all children.
-  ///
-  /// All children will be given the [BoxConstraints] to match this exact
-  /// height. Must not be null and must be positive.
+  /// item 的高度 默认为30
   final double itemExtent;
 
-  /// {@macro flutter.rendering.wheelList.squeeze}
-  ///
-  /// Defaults to `1.45` to visually mimic iOS.
+  /// 条目之间的间隔，默认为0.9 越小间隔越大
   final double squeeze;
 
   /// An option callback when the currently centered item changes.
@@ -190,6 +196,12 @@ class MyCupertinoPicker extends StatefulWidget {
 
   /// A delegate that lazily instantiates children.
   final ListWheelChildDelegate childDelegate;
+
+  ///右侧附加 Widget
+  final Widget rightDecorationWidget;
+
+  /// 左侧附加 Widget
+  final Widget leftDecorationWidget;
 
   @override
   State<StatefulWidget> createState() => _CupertinoPickerState();
@@ -294,9 +306,8 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
     );
   }
 
-  /// Makes the magnifier lens look so that the colors are normal through
-  /// the lens and partially grayed out around it.
   /// 选中地方高亮
+  /// 使用了一个遮罩，让未选中的部分叠加显示成灰色，选中部分显示出原来的颜色
   Widget _buildMagnifierScreen() {
     final Color foreground = widget.backgroundColor?.withAlpha(
         (widget.backgroundColor.alpha * _kForegroundScreenOpacityFraction)
@@ -311,13 +322,7 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
             ),
           ),
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              border: Border(
-                top: BorderSide(width: 0.0, color: _kHighlighterBorder),
-                bottom: BorderSide(width: 0.0, color: _kHighlighterBorder),
-              ),
-            ),
+            decoration: BoxDecoration(),
             constraints: BoxConstraints.expand(
               height: widget.itemExtent * widget.magnification,
             ),
@@ -332,16 +337,16 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
     );
   }
 
+  /// 选中部分的颜色，
   Widget _buildUnderMagnifierScreen() {
-    final Color foreground = widget.backgroundColor?.withAlpha(
-        (widget.backgroundColor.alpha * _kForegroundScreenOpacityFraction)
-            .toInt());
-
     return Column(
       children: <Widget>[
         Expanded(child: Container()),
         Container(
-          color: foreground,
+          // color:  Colors.red,
+          decoration: BoxDecoration(
+              color: widget.hightLighterBgColor,
+              borderRadius: BorderRadius.all(Radius.circular(100))),
           constraints: BoxConstraints.expand(
             height: widget.itemExtent * widget.magnification,
           ),
@@ -351,6 +356,7 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
     );
   }
 
+  /// 添加背景
   Widget _addBackgroundToChild(Widget child) {
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -360,14 +366,18 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
     );
   }
 
+  /// 1.绘制选中区域
+  /// 2.绘制滚动列表
+  /// 3.绘制未选中区域蒙版
+  /// 4.绘制边缘区域渐隐
+  /// 5.添加背景
   @override
   Widget build(BuildContext context) {
     Widget result = DefaultTextStyle(
       style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
       child: Stack(
         children: <Widget>[
-          _buildMagnifierScreen(),
-
+          _buildUnderMagnifierScreen(),
           Positioned.fill(
             child: _CupertinoPickerSemantics(
               scrollController: widget.scrollController ?? _controller,
@@ -386,22 +396,14 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
               ),
             ),
           ),
+          _buildMagnifierScreen(),
           _buildGradientScreen(),
+          widget.rightDecorationWidget ?? Text(""),
+          widget.leftDecorationWidget ?? Text(""),
         ],
       ),
     );
-    // Adds the appropriate opacity under the magnifier if the background
-    // color is transparent.
-    if (widget.backgroundColor != null && widget.backgroundColor.alpha < 255) {
-      result = Stack(
-        children: <Widget>[
-          _buildUnderMagnifierScreen(),
-          _addBackgroundToChild(result),
-        ],
-      );
-    } else {
-      result = _addBackgroundToChild(result);
-    }
+    result = _addBackgroundToChild(result);
     return result;
   }
 }
