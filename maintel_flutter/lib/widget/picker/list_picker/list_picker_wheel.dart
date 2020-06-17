@@ -263,10 +263,7 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
 
   /// Makes the fade to [CupertinoPicker.backgroundColor] edge gradients.
   Widget _buildGradientScreen() {
-    // Because BlendMode.dstOut doesn't work correctly with BoxDecoration we
-    // have to just do a color blend. And a due to the way we are layering
-    // the magnifier and the gradient on the background, using a transparent
-    // background color makes the picker look odd.
+
     if (widget.backgroundColor != null && widget.backgroundColor.alpha < 255)
       return Container();
 
