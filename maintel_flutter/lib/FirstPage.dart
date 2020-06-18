@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:maintel_flutter/widget/picker/show_picker.dart';
+import 'package:maintel_flutter/widget/picker/time_picker/my_time_picker_widget.dart';
 
 class FirstPage extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class FirstPage extends StatelessWidget {
       ],
       supportedLocales: [
         //此处
-        // const Locale('zh', 'CH'),
+        const Locale('zh', 'CH'),
         const Locale('en', 'US'),
       ],
       home: FirstPageWidget(),
@@ -47,6 +48,10 @@ class _FirstPageState extends State<FirstPageWidget> {
             onPressed: () => _showTime(),
             child: Text("show Time"),
           ),
+                    RaisedButton(
+            onPressed: () => _showDate(),
+            child: Text("show Date"),
+          ),
           RaisedButton(
             onPressed: () => _showCityPicker(),
             child: Text("show city picker"),
@@ -59,15 +64,19 @@ class _FirstPageState extends State<FirstPageWidget> {
             onPressed: () => _showDatePicker(),
             child: Text("show my date picker"),
           ),
-          Expanded(
-              child: Container(
-            height: 200,
-            child: CupertinoTimerPicker(
-              initialTimerDuration: Duration(
-                  hours: now.hour, minutes: now.minute, seconds: now.second),
-              onTimerDurationChanged: (Duration duration) {},
-            ),
-          )),
+          // Expanded(
+          //     child: Container(
+          //   height: 200,
+          //   child: CupertinoTimerPicker(
+          //     initialTimerDuration: Duration(
+          //         hours: now.hour, minutes: now.minute, seconds: now.second),
+          //     onTimerDurationChanged: (Duration duration) {},
+          //   ),
+          // )),
+          Container(
+            height: 300,
+            child: MyTimePicker(model:TimePiclerType.YearMothDayHourMin),
+          )
         ],
       ),
     );
@@ -76,6 +85,10 @@ class _FirstPageState extends State<FirstPageWidget> {
   void _showTime() async {
     var time =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
+  }
+
+  void _showDate() async {
+    await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1992), lastDate: DateTime(2025));
   }
 
   _showCityPicker() async {
@@ -90,7 +103,5 @@ class _FirstPageState extends State<FirstPageWidget> {
     });
   }
 
-  _showDatePicker () async {
-    
-  }
+  _showDatePicker() async {}
 }
