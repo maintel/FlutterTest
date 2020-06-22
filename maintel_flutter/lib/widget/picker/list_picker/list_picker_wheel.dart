@@ -22,28 +22,7 @@ const double _kSqueeze = 0.9;
 /// lens with the same color as the background.
 const double _kForegroundScreenOpacityFraction = 0.7;
 
-/// An iOS-styled picker.
-///
-/// Displays its children widgets on a wheel for selection and
-/// calls back when the currently selected item changes.
-///
-/// By default, the first child in [children] will be the initially selected child.
-/// The index of a different child can be specified in [scrollController], to make
-/// that child the initially selected child.
-///
-/// Can be used with [showCupertinoModalPopup] to display the picker modally at the
-/// bottom of the screen.
-///
-/// Sizes itself to its parent. All children are sized to the same size based
-/// on [itemExtent].
-///
-/// By default, descendent texts are shown with [CupertinoTextThemeData.pickerTextStyle].
-///
-/// See also:
-///
-///  * [ListWheelScrollView], the generic widget backing this picker without
-///    the iOS design specific chrome.
-///  * <https://developer.apple.com/ios/human-interface-guidelines/controls/pickers/>
+/// ios 风格列表选择器
 class MyCupertinoPicker extends StatefulWidget {
   /// Creates a picker from a concrete list of children.
   ///

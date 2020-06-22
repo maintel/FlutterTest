@@ -75,7 +75,7 @@ class _FirstPageState extends State<FirstPageWidget> {
           // )),
           Container(
             height: 300,
-            child: MyTimePicker(model:TimePiclerType.YearMothDayHourMin),
+            child: MyTimePicker(model:TimePiclerType.YearMothDayHourMin,startTime: DateTime(2015,5,25),endTime: DateTime(2019,8,10),),
           )
         ],
       ),
