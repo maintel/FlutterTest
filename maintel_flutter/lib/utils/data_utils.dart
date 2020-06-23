@@ -222,60 +222,17 @@ const String Z = 'Z';
 // 短日期格式
 const List<String> DATE_FORMAT = [yyyy, "-", MM, "-", dd];
 const List<String> DATE_FORMAT1 = [yyyy, "/", MM, "/", dd];
-const List<String> DATE_FORMAT_DATE_TIME = [
-  yyyy,
-  "/",
-  MM,
-  "/",
-  dd,
-  " ",
-  HH,
-  ":",
-  mm
-];
+const List<String> DATE_FORMAT_DATE_TIME = [yyyy,"/",MM,"/",dd, " ",HH,":", mm];
 
 // 长日期格式
 const List<String> MONTH_FORMAT = [MM, "月", dd, "日"];
 const List<String> MONTH_DAY_FORMAT = [MM, "-", dd];
 const List<String> DEFAULT_TIME_HOUR_FORMAT = [HH, ":", mm];
 // 长日期格式
-const List<String> DEFAULT_TIME_FORMAT = [
-  yyyy,
-  "-",
-  MM,
-  "-",
-  dd,
-  " ",
-  HH,
-  ":",
-  mm,
-  ":",
-  ss
-];
-const List<String> DEFAULT_TIME_FORMAT_FRZ = [HH, ":", mm, ":", ss];
-const List<String> DEFAULT_TIME_FORMAT_TIME = [MM, "-", dd, " ", HH, ":", mm];
-const List<String> DATE_TIME_FORMAT_TIME = [
-  yyyy,
-  "-",
-  MM,
-  "-",
-  dd,
-  " ",
-  HH,
-  ":",
-  mm
-];
-const List<String> DEFAULT_TIME_FORMAT_MIN = [
-  yyyy,
-  "-",
-  MM,
-  "-",
-  dd,
-  " ",
-  HH,
-  ":",
-  mm
-];
+const List<String> DEFAULT_TIME_FORMAT = [yyyy,"-", MM,"-", dd, " ", HH,":",mm,":",ss];
+const List<String> DEFAULT_TIME_FORMAT_HMS = [HH, ":", mm, ":", ss];
+const List<String> DEFAULT_TIME_FORMAT_MDHM = [MM, "-", dd, " ", HH, ":", mm];
+const List<String> DEFAULT_TIME_FORMAT_YMDHM = [yyyy,"-",MM,"-",dd," ",HH,":",mm];
 
 String formatDate(DateTime date, List<String> formats) {
   final sb = StringBuffer();
@@ -438,7 +395,7 @@ const List<int> _daysInMonth = <int>[
   31
 ];
 
-/// 获取某月中有多少天
+/// 获取某月中有多少天，只适用于 1582 年以后的年份，
 int getDaysInMonth(int year, int month) {
   if (month == DateTime.february) {
     final bool isLeapYear =

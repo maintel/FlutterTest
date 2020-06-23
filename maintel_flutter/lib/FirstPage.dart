@@ -38,6 +38,10 @@ class _FirstPageState extends State<FirstPageWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+    print(DateTime.now());
+    print(TimeOfDay.now());
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Picker Page"),
@@ -48,7 +52,7 @@ class _FirstPageState extends State<FirstPageWidget> {
             onPressed: () => _showTime(),
             child: Text("show Time"),
           ),
-                    RaisedButton(
+          RaisedButton(
             onPressed: () => _showDate(),
             child: Text("show Date"),
           ),
@@ -63,19 +67,6 @@ class _FirstPageState extends State<FirstPageWidget> {
           RaisedButton(
             onPressed: () => _showDatePicker(),
             child: Text("show my date picker"),
-          ),
-          // Expanded(
-          //     child: Container(
-          //   height: 200,
-          //   child: CupertinoTimerPicker(
-          //     initialTimerDuration: Duration(
-          //         hours: now.hour, minutes: now.minute, seconds: now.second),
-          //     onTimerDurationChanged: (Duration duration) {},
-          //   ),
-          // )),
-          Container(
-            height: 300,
-            child: MyTimePicker(model:TimePiclerType.YearMothDayHourMin,startTime: DateTime(2015,5,25),endTime: DateTime(2019,8,10),),
           )
         ],
       ),
@@ -83,12 +74,17 @@ class _FirstPageState extends State<FirstPageWidget> {
   }
 
   void _showTime() async {
-    var time =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    var time = await showMyTimePicker(context).then((value) {
+      print(value.toString());
+    });
   }
 
   void _showDate() async {
-    await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1992), lastDate: DateTime(2025));
+    await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1992),
+        lastDate: DateTime(2025));
   }
 
   _showCityPicker() async {

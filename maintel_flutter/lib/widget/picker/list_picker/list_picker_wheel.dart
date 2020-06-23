@@ -22,6 +22,9 @@ const double _kSqueeze = 0.9;
 /// lens with the same color as the background.
 const double _kForegroundScreenOpacityFraction = 0.7;
 
+/// 选择器高亮部分背景样式
+enum PickerLightType { All, RightRadius, LeftRadius, None }
+
 /// ios 风格列表选择器
 class MyCupertinoPicker extends StatefulWidget {
   /// Creates a picker from a concrete list of children.
@@ -55,6 +58,7 @@ class MyCupertinoPicker extends StatefulWidget {
     this.itemExtent = 30,
     this.rightDecorationWidget,
     this.leftDecorationWidget,
+    this.lightBgType = PickerLightType.All,
     @required this.onSelectedItemChanged,
     @required List<Widget> children,
     bool looping = false,
@@ -102,6 +106,7 @@ class MyCupertinoPicker extends StatefulWidget {
     this.itemExtent = 30,
     this.rightDecorationWidget,
     this.leftDecorationWidget,
+    this.lightBgType = PickerLightType.All,
     @required this.onSelectedItemChanged,
     @required IndexedWidgetBuilder itemBuilder,
     int childCount,
@@ -127,6 +132,8 @@ class MyCupertinoPicker extends StatefulWidget {
   /// Must not be null and defaults to `1.1` to visually mimic iOS.
   /// 高度和模拟圆柱体直径之间的比率，越小滚动起来时圆柱体越明显 默认是2.5
   final double diameterRatio;
+
+  final PickerLightType lightBgType;
 
   /// Background color behind the children.
   ///
@@ -242,7 +249,6 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
 
   /// Makes the fade to [CupertinoPicker.backgroundColor] edge gradients.
   Widget _buildGradientScreen() {
-
     if (widget.backgroundColor != null && widget.backgroundColor.alpha < 255)
       return Container();
 
@@ -321,8 +327,7 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
         Container(
           // color:  Colors.red,
           decoration: BoxDecoration(
-              color: widget.hightLighterBgColor,
-              borderRadius: BorderRadius.all(Radius.circular(100))),
+              color: widget.hightLighterBgColor, borderRadius: _borderRadius()),
           constraints: BoxConstraints.expand(
             height: widget.itemExtent * widget.magnification,
           ),
@@ -330,6 +335,22 @@ class _CupertinoPickerState extends State<MyCupertinoPicker> {
         Expanded(child: Container()),
       ],
     );
+  }
+
+  _borderRadius() {
+    switch (widget.lightBgType) {
+      case PickerLightType.LeftRadius:
+        return BorderRadius.only(
+            bottomLeft: Radius.circular(100), topLeft: Radius.circular(100));
+      case PickerLightType.RightRadius:
+        return BorderRadius.only(
+            bottomRight: Radius.circular(100), topRight: Radius.circular(100));
+      case PickerLightType.None:
+        return BorderRadius.zero;
+      case PickerLightType.All:
+      default:
+        return BorderRadius.all(Radius.circular(100));
+    }
   }
 
   /// 添加背景

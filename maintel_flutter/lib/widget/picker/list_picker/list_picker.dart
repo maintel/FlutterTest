@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:maintel_flutter/widget/picker/common_wdiget.dart';
 import 'package:maintel_flutter/widget/picker/list_picker/list_picker_wheel.dart';
-import 'package:maintel_flutter/widget/picker/list_picker/list_result.dart';
+import 'package:maintel_flutter/widget/picker/result.dart';
 
 import '../popu_route.dart';
 
@@ -72,56 +73,22 @@ class _ListPickerWidget extends State<ListPicker> {
                     ],
                   ),
                 )),
-            delegate: _WrapLayout(progress: route.animation.value, height: 400),
+            delegate: WrapLayout(progress: route.animation.value, height: 400),
           );
         });
   }
 
   /// 绘制顶部 title
   Widget _getTitleWidget() {
-    return Row(
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context, PickerResult(-1, null));
-          },
-          child: Padding(
-            padding: EdgeInsets.all(2),
-            child: Text(
-              widget.negativeText,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16,
-                  color: widget.negativeTextColor,
-                  decoration: TextDecoration.none),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(),
-          flex: 1,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(
-                context,
-                PickerResult(_currentSelectItem,
-                    widget.contentList[_currentSelectItem]));
-          },
-          child: Padding(
-            padding: EdgeInsets.all(2),
-            child: Text(
-              widget.positiveText,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16,
-                  color: widget.positiveTextColor,
-                  decoration: TextDecoration.none),
-            ),
-          ),
-        )
-      ],
-    );
+    return PickerTitleWidget(() {
+      Navigator.pop(context, PickerResult(-1, null));
+    }, () {
+      Navigator.pop(
+          context,
+          PickerResult(
+              _currentSelectItem, widget.contentList[_currentSelectItem]));
+    }, widget.negativeText, widget.negativeTextColor, widget.positiveText,
+        widget.positiveTextColor);
   }
 
   /// 内容列表
@@ -174,50 +141,5 @@ class _ListPickerWidget extends State<ListPicker> {
     } else {
       return Text("");
     }
-  }
-}
-
-class _WrapLayout extends SingleChildLayoutDelegate {
-  _WrapLayout({
-    this.progress,
-    this.height,
-  });
-
-  final double progress;
-  final double height;
-
-  @override
-  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    double maxHeight = height;
-
-    return new BoxConstraints(
-      minWidth: constraints.maxWidth,
-      maxWidth: constraints.maxWidth,
-      minHeight: 0.0,
-      maxHeight: maxHeight,
-    );
-  }
-
-  @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    double height = size.height - childSize.height * progress;
-    return new Offset(0.0, height);
-  }
-
-  @override
-  bool shouldRelayout(_WrapLayout oldDelegate) {
-    return progress != oldDelegate.progress;
-  }
-}
-
-class WheelItemWidget extends StatelessWidget {
-  String _label;
-
-  WheelItemWidget(this._label);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Text(_label);
   }
 }
